@@ -28,7 +28,12 @@ run:
 test: $(TEST_OBJ)
 	@ $(CC) $(CFLAGS) $^ -o bin/test
 	@ ./bin/test
-	
+
+.PHONY: test-mem
+test-mem: $(TEST_OBJ)
+	@ $(CC) $(CFLAGS) $^ -o bin/test
+	@ valgrind -s --leak-check=full --track-origins=yes ./bin/test
+
 .PHONY: clear
 clear:
 	rm -r build

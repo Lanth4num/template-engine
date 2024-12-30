@@ -33,6 +33,9 @@ void token_print_wrapper(void* token);
 void token_print(Token*);
 lList* tokenize(FILE* file_stream);
 
+void token_free(Token*);
+void token_free_wrapper(void* ptr);
+
 #endif  // INCLUDE_LEXER
 
 

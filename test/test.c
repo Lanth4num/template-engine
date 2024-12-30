@@ -20,13 +20,13 @@ void template_test(void){
 	assert(stream != NULL);
 	lList* token_list = tokenize(stream);
 	fclose(stream);
-	llist_print(token_list, token_print_wrapper);
+	// llist_print(token_list, token_print_wrapper);
 
 	char* response = apply_template(token_list, dict); 
-	printf("Got:\n%s\n", response);
+	// printf("Got:\n%s\n", response);
 
 	free(response);
-};
+}
 
 
 void dict_test(void){
@@ -63,12 +63,21 @@ void tokenize_test(void){
 	// char input4[] = "     This is text     ";
 	// char input5[] = "   This is text    {{ as_well_as_a_variable some_crap }}   ";
 
-	FILE* stream = fopen("/home/adrien/Documents/Projects/template-engine/bin/test.txt", "r");
-	printf("Error: %s\n", strerror(errno));
-	assert(stream != NULL);
-	lList* list = tokenize(stream);
-	fclose(stream);
-	llist_print(list, token_print_wrapper);
+	// FILE* stream = fopen("/home/adrien/Documents/Projects/template-engine/bin/test.txt", "r");
+	// printf("Error: %s\n", strerror(errno));
+	// assert(stream != NULL);
+	// lList* list = tokenize(stream);
+	// fclose(stream);
+	// llist_print(list, token_print_wrapper);
+	
+	/* Free */
+	// llist_free(list, token_free_wrapper);
+	// list = NULL;
+	
+
+	lList* list;
+	llist_append(&list, token_new(TEXT, "THIS IS A TEXT"), sizeof(Token*));
+	llist_free(list, token_free_wrapper);
 
 }
 

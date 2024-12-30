@@ -46,7 +46,7 @@ Token* token_new(token_type type, char const * literal){
 	token->type = type;
 
 	/* Copy string and bind it to Token */
-	char* str = (char*) malloc( sizeof(char) * strlen(literal) );
+	char* str = (char*) calloc( (strlen(literal)+1), sizeof(char) );
 	assert(token != NULL);
 	strcpy(str, literal); 
 	token->value = str;
@@ -85,18 +85,23 @@ lList* tokenize(FILE* file){
 
 	while ((c = getc(file)) != EOF) {
 
+		Token* token;
+
 		/* For variables */
 		if (c == '{' && fpeek(file) == '{'){
 			/* resets the buffer */
 			is_in_variable_block = true;
 			getc(file);
-			llist_append(&list, token_new(START_ID_BLOCK, "{{"), sizeof(Token));
+			token = token_new(START_ID_BLOCK, "{{");
+			llist_append(&list, token, sizeof(Token));
 		}
 
 		else if (c == '}' && fpeek(file) == '}'){
 			is_in_variable_block = false;
 			getc(file);
-			llist_append(&list, token_new(END_ID_BLOCK, "}}"), sizeof(Token));
+
+			token = token_new(END_ID_BLOCK, "}}");
+			llist_append(&list, token, sizeof(Token));
 
 			/* Do not skip spaces after this one */
 			continue;
@@ -115,7 +120,8 @@ lList* tokenize(FILE* file){
 
 			buffer[ptr] = '\0';
 
-			llist_append(&list, token_new(IDENTIFIER, buffer), sizeof(Token));
+			token = token_new(IDENTIFIER, buffer);
+			llist_append(&list, token, sizeof(Token));
 		}
 
 		/* For TEXT */
@@ -130,15 +136,28 @@ lList* tokenize(FILE* file){
 			ungetc(c, file);
 			buffer[buf_ptr] = '\0';
 
-			llist_append(&list, token_new(TEXT, buffer), sizeof(Token));
+			token = token_new(TEXT, buffer);
+			llist_append(&list, token, sizeof(Token));
 			/* Do not skip spaces after text */
 			continue;
 		}
 
+		token_free(token);
 		skip_spaces(file);
 	}
 
 	return list;
 }
 
+
+void token_free(Token* token){
+	free(token->value);
+	free(token);
+	return;
+}
+
+void token_free_wrapper(void* ptr){
+	token_free((Token*) ptr);
+	return;
+}
 
