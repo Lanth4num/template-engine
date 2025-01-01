@@ -5,16 +5,14 @@
 #include <string.h>
 #include <strings.h>
 
-llNode* llnode_new(void const * data, size_t const size){
+llNode* llnode_new(void * data){
 	
 	/* Creating node */
 	llNode* new_node = (llNode*) malloc(sizeof(llNode));
 	assert(new_node != NULL);
 
-	/* Adding content (data) to the node */
-	new_node->data = malloc(size); 
-	assert(new_node->data != NULL);
-	memcpy(new_node->data, data, size);
+	/* Adding the pointer to the node (doesn't allocate memory) */
+	new_node->data = data; 
 
 	/* Returning node */
 	new_node->next = NULL;
@@ -24,10 +22,10 @@ llNode* llnode_new(void const * data, size_t const size){
 
 
 /* put the data at the end of the list */
-void llist_append(lList** list, void const * data, size_t const size){
+void llist_append(lList** list, void * data){
 	assert(list != NULL);
 	/* Creating new node with corresponding data */
-	llNode* new_node = llnode_new(data, size);
+	llNode* new_node = llnode_new(data);
 
 	/* Set head to new node if NULL provided and return*/
 	if (*list == NULL){
@@ -153,6 +151,3 @@ void llist_print(lList* list, void (*print_function)(void*)){
 
 	return;
 }
-
-
-

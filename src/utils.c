@@ -51,4 +51,7 @@ void float_print(void* float_number){
 	printf("%f", *(float*) float_number);
 }
 
+void nothing_free(void* ptr){
+	return;
+}
 

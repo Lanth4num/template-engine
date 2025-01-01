@@ -8,15 +8,14 @@
 // #include "../src/headers/lexer.h"
 #include "../src/headers/dict.h"
 #include "../src/headers/template.h"
-
-
+#include "../src/headers/utils.h"
 
 void template_test(void){
 	Dict* dict = dict_new();
 	dict_add(dict, "name", "Adrien");
 	dict_add(dict, "age", "17");
 
-	FILE* stream = fopen("/home/adrien/Documents/Projects/template-engine/bin/test.txt", "r");
+	FILE* stream = fopen("test.txt", "r");
 	assert(stream != NULL);
 	lList* token_list = tokenize(stream);
 	fclose(stream);
@@ -25,6 +24,8 @@ void template_test(void){
 	char* response = apply_template(token_list, dict); 
 	// printf("Got:\n%s\n", response);
 
+	dict_free(dict);
+	llist_free(token_list, token_free_wrapper);
 	free(response);
 }
 
@@ -54,7 +55,7 @@ void dict_test(void){
 
 void tokenize_test(void){
 
-	printf(ANSI_COLOR_YELLOW "Testing tokenazation!\n" ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_YELLOW "Testing tokenization!\n" ANSI_COLOR_RESET);
 
 	/* Testing block, text and variables */
 	// char input1[] = "" ;
@@ -75,8 +76,11 @@ void tokenize_test(void){
 	// list = NULL;
 	
 
-	lList* list;
-	llist_append(&list, token_new(TEXT, "THIS IS A TEXT"), sizeof(Token*));
+	lList* list = NULL;
+	Token* token = NULL;
+	token = token_new(TEXT, "THIS IS A TEXT");
+
+	llist_append(&list, token);
 	llist_free(list, token_free_wrapper);
 
 }
@@ -110,7 +114,7 @@ void llist_test(void){
 
 	printf(ANSI_COLOR_YELLOW "Testing linked Lists!\n" ANSI_COLOR_RESET);
 
-	llist_append(&list, &one, sizeof(int)); // creating the list
+	llist_append(&list, &one); // creating the list
 
 	assert(list != NULL);
 	assert(list->len == 1);
@@ -121,7 +125,7 @@ void llist_test(void){
 	assert(*(int *)(list->head->data) == 1);
 	assert(*(int *)(list->tail->data) == 1);
 
-	llist_append(&list, &two, sizeof(int));
+	llist_append(&list, &two);
 
 	assert(list != NULL);
 	assert(list->len == 2);
@@ -155,6 +159,7 @@ void llist_test(void){
 	assert( llist_get(list, 1) == NULL);
 	assert( llist_get(list, 0) == NULL);
 
+	llist_free(list, nothing_free);
 	return;
 }
 

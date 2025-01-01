@@ -18,4 +18,6 @@ void str_print(void* str);
 void int_print(void* integer);
 void float_print(void* float_number);
 
+void nothing_free(void* ptr);
+
 #endif  // UTILS

@@ -32,7 +32,7 @@ test: $(TEST_OBJ)
 .PHONY: test-mem
 test-mem: $(TEST_OBJ)
 	@ $(CC) $(CFLAGS) $^ -o bin/test
-	@ valgrind -s --leak-check=full --track-origins=yes ./bin/test
+	@ valgrind -s --vgdb=full --leak-check=full --track-origins=yes ./bin/test
 
 .PHONY: clear
 clear:

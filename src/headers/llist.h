@@ -18,11 +18,11 @@ struct llNode{
 	llNode* prev;
 };
 
-llNode* llnode_new(void const * data, size_t const size);
+llNode* llnode_new(void * data);
 lList* llist_new(llNode*);
 void* llist_get(lList const * list, size_t const index);
 /* can be used as llist_new when used with NULL data size */
-void llist_append(lList** list, void const * data, size_t const size);
+void llist_append(lList** list, void * data);
 void* llist_pop(lList* list);
 void llist_free(lList*, void (*free_function)(void*));
 

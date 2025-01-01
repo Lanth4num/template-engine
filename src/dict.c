@@ -41,7 +41,7 @@ void dict_add(Dict* dict, char const * key, char const * value){
 	assert(dict != NULL);
 
 	/* Creating the dict element */
-	dictElement new_el;
+	dictElement* new_el = malloc(sizeof(dictElement));
 	char* key_str = malloc(sizeof(char) * (strlen(key)+1));
 	char* value_str = malloc(sizeof(char) * (strlen(value)+1));
 
@@ -50,12 +50,12 @@ void dict_add(Dict* dict, char const * key, char const * value){
 	strcpy(key_str, key);
 	strcpy(value_str, value);
 
-	new_el.key = key_str;
-	new_el.hash = hash_key(key);
-	new_el.value = value_str;
+	new_el->key = key_str;
+	new_el->hash = hash_key(key);
+	new_el->value = value_str;
 
 	/* Append it to the end of the list */
-	llist_append(&(dict->list), &new_el, sizeof(new_el));
+	llist_append(&(dict->list), new_el);
 }
 
 
