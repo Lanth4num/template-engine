@@ -121,8 +121,10 @@ void llist_free(lList* list, void (*free_function)(void*)){
 		llNode* next = node->next;
 
 		/* Call free function on them */
-		free_function(node->data);
-		node->data = NULL;
+		if (free_function != NULL){
+			free_function(node->data);
+			node->data = NULL;
+		}
 
 		/* Free the node itself */
 		free(node);
