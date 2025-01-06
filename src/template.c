@@ -35,9 +35,16 @@ char* apply_template(lList* token_list, Dict* dict){
 		/* Check for variable and replace them */
 		else if ( type == IDENTIFIER ){
 			char* variable = dict_get(dict, token->value); 
-			if ( variable != NULL ) {
-				strcat(buffer, variable);
+			if (variable == NULL) continue;
+
+			/* Make buffer larger if needed */
+			buf_size += strlen(token->value);
+			if (buf_size >= max_buf) {
+				max_buf *= 2;
+				buffer = realloc( buffer, max_buf);
 			}
+
+			strcat(buffer, variable);
 		}
 
 		node = node->next;
