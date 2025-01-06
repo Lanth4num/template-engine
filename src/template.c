@@ -38,7 +38,7 @@ char* apply_template(lList* token_list, Dict* dict){
 			if (variable == NULL) continue;
 
 			/* Make buffer larger if needed */
-			buf_size += strlen(token->value);
+			buf_size += strlen(variable);
 			if (buf_size >= max_buf) {
 				max_buf *= 2;
 				buffer = realloc( buffer, max_buf);
