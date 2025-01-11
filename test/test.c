@@ -39,15 +39,11 @@ void dict_test(void){
 	dict_add(new_dict, "age", "17");
 	dict_add(new_dict, "classe", "TE");
 
-	// dict_print(new_dict);
-	// printf(
-	// 			"nom: %s\n"
-	// 			"age: %s\n"
-	// 			"classe: %s\n",
-	// 			dict_get(new_dict, "name"),
-	// 			dict_get(new_dict, "age"),
-	// 			dict_get(new_dict, "classe")
-	// );
+	size_t bufsize = 3;
+	char* buf = malloc(sizeof(char)*bufsize);
+	int* ptr = malloc(sizeof(int));
+	dict_snprint(new_dict, bufsize, buf);
+	printf("%s", buf);
 
 	dict_free(new_dict);
 	new_dict = NULL;
