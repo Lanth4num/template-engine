@@ -119,32 +119,3 @@ void dict_print(Dict const * dict){
 
 }
 
-
-/* WARNING not sure it works well and without memory corruption */
-void dict_snprint(Dict const* dict, size_t size, char* string){
-	assert(size != 0);
-	string[0] = '\0';
-
-	/* Loop through all the keys */
-	size_t bufsize = 20;
-	char* buffer = malloc(bufsize);
-	size_t i=0;
-	dictElement* dict_el;
-	strncat(string, "{\n", size-strlen(string));
-
-	while ((dict_el = llist_get(dict->list, i)) != NULL) {
-		/* Print each element */
-		if ( snprintf(buffer, bufsize, "\t\"%s\": \"%s\",\n", dict_el->key, dict_el->value) >= (int) bufsize) {
-			/* Append it to string */
-			strncat(string, buffer, size-strlen(string));
-			i++;
-		} else {
-			/* Resize buffer */
-			bufsize *= 2;
-			buffer = realloc(buffer, bufsize);
-		}
-	}
-
-	strncat(string, "}\n", size-strlen(string));
-	free(buffer);
-}

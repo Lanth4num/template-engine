@@ -10,6 +10,5 @@ void dict_add(Dict*, char const * key, char const * value);
 char* dict_get(Dict const *, char const * key);
 void dict_print(Dict const *);
 void dict_free(Dict *);
-void dict_snprint(Dict const* dict, size_t size, char* string);
 
 #endif  // INCLUDE_DICT
